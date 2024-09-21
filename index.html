@@ -13,14 +13,22 @@
 
     <style>
         * {
-
+            margin: 0;
             font-size: 35px;
             text-align: center;
         }
 
+
+
         header {
             height: 40%;
             background-color: aqua;
+        }
+
+        p {
+            border: 1px solid red;
+
+
         }
 
         main {
@@ -40,10 +48,12 @@
 
 <body>
     <header>
-        my
+        20223466戈玉轩
     </header>
     <main>
-        great of
+        <p id="word"></p>
+        <p id="pron"></p>
+        <p id="chinese"></p>
     </main>
 
     <footer>
@@ -54,6 +64,29 @@
 </body>
 <script>
     console.log("finsh time:" + (new Date() - bigban) + "ms");
+    let strCET6 = '';
+    let arrCET6 = [];
+    fetch('cet6.txt')
+        .then(res => res.text())
+        .then(txt => {
+            strCET6 = txt;
+            arrCET6 = strCET6.split('\r\n');
+            let rand = Math.floor(arrCET6.length * Math.random());
+            let cetWord = arrCET6[rand];
+            let begin = cetWord.indexOf('\t');
+            let end = cetWord.lastIndexOf('\t');
+            let word = cetWord.slice(0, begin);
+            let pron = cetWord.slice(begin + 1, end);
+            let chinese = cetWord.slice(end + 1);
+            select('#word').textContent = word;
+            select('#pron').textContent = pron;
+            select('#chinese').textContent = chinese;
+        });
+
+    function select(str) {
+        let dom = document.querySelector(str);
+        return dom;
+    }
 </script>
 
 </html>
