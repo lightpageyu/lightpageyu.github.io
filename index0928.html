@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+
+
+    <script>
+        let bigban = new Date();
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            border: 2px solid blue;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 99vh;
+            font-size: calc(0.5em + 2vw);
+
+
+        }
+
+
+        header {
+            height: 20%;
+            background-color: aqua;
+            font-size: 2em;
+        }
+
+        nav {
+            height: 10%;
+            font-size: 1.2em;
+            background-color: aquamarine;
+        }
+
+        p {
+            border: 1px solid blue;
+        }
+
+        main {
+            height: 60%;
+            background-color: antiquewhite;
+            font-size: 1.2em;
+        }
+
+        footer {
+            height: 10%;
+            background-color: aquamarine;
+            font-size: 1em;
+        }
+
+        button {
+            padding: 0.1em;
+            font-size: 1em;
+        }
+    </style>
+    <script>
+        let Model = {};
+        Model.cet6String = '';
+        Model.cetUrl = ['cet6.txt'];
+        for (let i = 0; i < Model.cetUrl.length; i++) {
+            fetch(Model.cetUrl[i])
+                .then(res => res.text())
+                .then(txt => {
+                    Model.cet6String += txt;
+                    UI.log('单词库：' + Model.cetUrl[i] + ' 加载成功!');
+                });
+        };
+
+    </script>
+</head>
+
+<body>
+    <header>
+        CET-6 Word
+    </header>
+    <nav>
+        <button id="randWord">随机单词</button>
+        <button id="loadWord">读入单词</button>
+    </nav>
+    <main>
+        <p id="en"></p>
+        <p id="pr"></p>
+        <p id="cn"></p>
+    </main>
+
+    <footer>
+        20223466戈玉轩
+    </footer>
+    <script>document.body.style.height = innerHeight - 18 + "px"</script>
+
+</body>
+<script>
+    let UI = {};
+    UI.log = function (s) {
+        select('footer').textContent = s;
+    }
+
+    UI.mainLog = function (s) {
+        select('main').textContent = s;
+    };
+    select('button#loadWord').onclick = function () {
+        Model.CET6 = Model.cet6String.split('\r\n');
+
+        if (Model.CET6.length < 5000) {
+            UI.log("单词没有完全读入，Please wait!");
+        } else {
+            UI.log("我已经读入了" + Model.CET6.length + "单词!")
+        }
+
+    };
+    select('button#randWord').onclick = function () {
+
+        if (Model.CET6.length < 5000) {
+            UI.log("请点“读入单词”按钮");
+        } else {
+            let rand = Math.floor(Math.random() * Model.CET6.length);
+            UI.mainLog(Model.CET6[rand]);
+            UI.log("我已经读入了" + Model.CET6.length + "单词!")
+        }
+
+    };
+    function select(str) {
+        let dom = document.querySelector(str);
+        return dom;
+    }
+</script>
+
+</html>
